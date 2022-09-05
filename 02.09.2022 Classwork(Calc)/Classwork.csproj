@@ -11,14 +11,17 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="note.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>note.txt</LastGenOutput>
-    </None>
-    <None Update="note.txt">
+    <None Include="note.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>note.tt</DependentUpon>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="note.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>note.cs</LastGenOutput>
     </None>
   </ItemGroup>
 
