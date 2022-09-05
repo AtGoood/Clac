@@ -1,0 +1,2 @@
+﻿
+new Classwork.Calc().Run();
