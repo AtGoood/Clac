@@ -28,5 +28,13 @@ Classwork.Calck calc = new();
             Assert.AreEqual(Rumnumber.Parse("LV"), 55);
             Assert.AreEqual(Rumnumber.Parse("XL"), 40);
         }
+
+        //- Додати тест для числа "N" - 0
+        [TestMethod]
+        public void RomNumberTest()
+        {
+            Assert.AreEqual(0, Rumnumber.Parse("N"));
+        }
+
     }
 }
