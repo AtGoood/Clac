@@ -47,6 +47,7 @@ namespace Classwork
                 int val = digitValues[ind];
 
                 int val2 = digitValues[ind2];
+                
                 if (i <= 0) { val2 = 0; }
 
                 if (val <= val2)
