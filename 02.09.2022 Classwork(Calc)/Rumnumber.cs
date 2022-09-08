@@ -10,11 +10,8 @@ namespace Classwork
     {
         public static int Parse(string str)
         {
-
-
-
-            char[] digits = { 'I', 'V', 'X', 'L', 'C', 'D', 'M' };
-            int[] digitValues = { 1, 5, 10, 50, 100, 500, 1000 };
+            char[] digits = { 'N','I', 'V', 'X', 'L', 'C', 'D', 'M' };
+            int[] digitValues = { 0, 1, 5, 10, 50, 100, 500, 1000 };
             int res = 0;
             //Если следующая цифра числа больше текущей, то
             // она вычитается из результата, иначе добавляется

@@ -87,6 +87,14 @@ namespace TestProject
            
            
         }
+
+        //- Додати тест для числа "N" - 0
+        [TestMethod]
+        public void RomNumberNTest()
+        {
+            Assert.AreEqual(0, Rumnumber.Parse("N"));
+        }
+
     }
 }
 
