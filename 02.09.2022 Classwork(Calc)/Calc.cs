@@ -12,6 +12,8 @@ namespace Classwork
             Console.WriteLine("Hello");
             Console.WriteLine(Rumnumber.Parse("MCMXCIX"));
             Console.WriteLine(Rumnumber.Parse("N"));
+
+            Console.WriteLine(Rumnumber.Parse("MCMXCIX"));
             //tim test
 
         }

@@ -6,74 +6,159 @@ using System.Threading.Tasks;
 
 namespace Classwork
 { // класс для римских чисел
-    public class Rumnumber
+    public record Rumnumber
     {
-        public static int Parse(string str)
+       
+       public  int a { get; set; }
+
+        public  Rumnumber(int A=0)
         {
-            char[] digits = { 'N','I', 'V', 'X', 'L', 'C', 'D', 'M' };
-            int[] digitValues = { 0, 1, 5, 10, 50, 100, 500, 1000 };
-            int res = 0;
-            //Если следующая цифра числа больше текущей, то
-            // она вычитается из результата, иначе добавляется
-            //IX: -1 + 10; XC: -10+100; XX: +10+10; CX : +100+10
-            for (int i = str.Length - 1; i > -1; i--)
+            a = A;
+        }
+
+
+
+
+
+        public static int Parse(String str)
+        {
+            if (str == null)
             {
+                throw new ArgumentNullException();
+            }
+            if (str == "N")  
+            {
+                return 0;
+            }
 
-                char digit = str[i];
-                char digit2 = str[i];
+            bool isNegative = false;
+            if (str.StartsWith('-'))
+            {
+                isNegative = true;
+                str = str[1..];
+            }
 
-                if (i - 1 > -1)
-                {
-                    digit2 = str[i - 1];
-                }
+            if (str.Length < 1)
+            {
+                throw new ArgumentException("Empty string not allowed");
+            }
 
-
-
-
-
-
-
-                int ind = Array.IndexOf(digits, digit);
-                int ind2 = Array.IndexOf(digits, digit2);
-
-
+            char[] digits = { 'I', 'V', 'X', 'L', 'C', 'D', 'M' };
+            int[] digitValues = { 1, 5, 10, 50, 100, 500, 1000 };
+      
+            int pos = str.Length - 1;  
+            char digit = str[pos];   
+            int ind = Array.IndexOf(digits, digit);  
+            if (ind == -1)
+            {
+                throw new ArgumentException($"Invalid char {digit}");
+            }
+            int val = digitValues[ind]; 
+            int res = val;
+            int nextDigitVal = val;
+            while (pos > 0)
+            {
+                pos -= 1;  
+                digit = str[pos];     
+                ind = Array.IndexOf(digits, digit);  
                 if (ind == -1)
                 {
-                    throw new ArgumentException($"Invalid character {digit}");
+                    throw new ArgumentException($"Invalid char {digit}");
                 }
-                int val = digitValues[ind];
-
-                int val2 = digitValues[ind2];
-                
-                if (i <= 0) { val2 = 0; }
-
-                if (val <= val2)
-                {
-
-
-                    res += val + val2;
-
-
-                }
-                else
-                {
-
-
-                    res += val - val2;
-
-
-
-
-                }
-                if (i != 0)
-                {
-                    i--;
-                }
-
-
-                //  pos -= 1;// предпоследняя цифра
+                val = digitValues[ind];  
+                res += (val < nextDigitVal)
+                        ? -val
+                        : val;
+                nextDigitVal = val;
             }
+            return isNegative ? -res : res;
+        }
+
+        public Rumnumber Add(Rumnumber rn)
+        {
+
+            if(rn is null)
+            {
+                throw new ArgumentException(nameof(rn));
+            }
+
+            return new(this.a + rn.a);
+
+        }
+        public Rumnumber Add(int rn)
+        {
+
+          
+
+            return new(this.a + rn);
+
+        }
+        public Rumnumber Add(string roman)
+        {
+            return this.Add(new Rumnumber(Parse(roman)));
+        }
+        public  Rumnumber Add(Rumnumber f ,int s)
+        {
+            return this.Add(new Rumnumber(s));
+        }
+        public static Rumnumber Add(Rumnumber f, string s)
+        {
+            return new Rumnumber(f.a + Parse(s));
+        }
+        public static Rumnumber Add(string f, string s)
+        {
+            return new Rumnumber(Parse(f) + Parse(s));
+        }
+        public static Rumnumber Add(Rumnumber f, Rumnumber s)
+        {
+            return new Rumnumber(f.a +s.a );
+        }
+        public static Rumnumber Add(int f, int s)
+        {
+            return new Rumnumber(f).Add(s);
+        }
+
+        public static Rumnumber Add(object obj1, object obj2)
+        {
+            var rns = new Rumnumber[] { null!, null! };
+            var pars = new object[] { obj1, obj2 };
+
+            for (int i = 0; i < 2; i++)
+            {
+                if (pars[i] is null) throw new ArgumentNullException($"obj{i + 1}");
+
+                if (pars[i] is int val) rns[i] = new Rumnumber(val);
+                else if (pars[i] is String str) rns[i] = new Rumnumber(Parse(str));
+                else if (pars[i] is Rumnumber rn) rns[i] = rn;
+                else throw new ArgumentException($"obj{i + 1}: type unsupported");
+            }
+
+            return rns[0].Add(rns[1]);   // заменить на цикл
+        }
+
+        public override string ToString()
+        {
+            if (this.a == 0)
+            {
+                return "N";
+            }
+            int n = this.a < 0 ? -this.a : this.a;
+            String res = this.a < 0 ? "-" : "";
+
+            String[] parts = { "M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I" };
+            int[] values = { 1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1 };
+
+            for (int j = 0; j <= parts.Length - 1; j++)
+            {
+                while (n >= values[j])
+                {
+                    n -= values[j];
+                    res += parts[j];
+                }
+            }
+
             return res;
         }
     }
+   
 }
