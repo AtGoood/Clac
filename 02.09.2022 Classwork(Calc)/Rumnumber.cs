@@ -3,13 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CalcProject.App;
 
 namespace Classwork
 { // класс для римских чисел
     public record Rumnumber
     {
-       
-       public  int a { get; set; }
+        const char ZERO_DIGIT = 'N';
+        public static Resources Resources { get; set; } = null!;
+        public  int a { get; set; }
+    
 
         public  Rumnumber(int A=0)
         {
@@ -30,7 +33,11 @@ namespace Classwork
             {
                 return 0;
             }
-
+            if (str.Length < 1)
+            {
+                throw new ArgumentException(
+                    Resources.GetEmptyStringMessage());
+            }
             bool isNegative = false;
             if (str.StartsWith('-'))
             {
@@ -63,8 +70,13 @@ namespace Classwork
                 ind = Array.IndexOf(digits, digit);  
                 if (ind == -1)
                 {
-                    throw new ArgumentException($"Invalid char {digit}");
+                    throw new ArgumentException(
+                       digit == ZERO_DIGIT
+                       ? Resources.GetMispalcedNMessage()
+                       : Resources.GetInvalidCharMessage(digit));
                 }
+
+
                 val = digitValues[ind];  
                 res += (val < nextDigitVal)
                         ? -val
@@ -133,7 +145,7 @@ namespace Classwork
                 else throw new ArgumentException($"obj{i + 1}: type unsupported");
             }
 
-            return rns[0].Add(rns[1]);   // заменить на цикл
+            return rns[0].Add(rns[1]);   
         }
 
         public override string ToString()
@@ -158,6 +170,16 @@ namespace Classwork
             }
 
             return res;
+        }
+
+        private Rumnumber(object obj)
+        {
+            if (obj == null) throw new ArgumentNullException(nameof(obj));
+            if (obj is int val) a = val;
+            else if (obj is String str) a = Parse(str);
+            else if (obj is Rumnumber rn) a = rn.a;
+            else throw new ArgumentException(
+             Resources.GetInvalidTypeMessage(obj.GetType().Name));
         }
         public Rumnumber Sub(Rumnumber rn)
         {

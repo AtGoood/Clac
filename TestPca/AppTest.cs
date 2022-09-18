@@ -237,6 +237,7 @@ namespace TestProject
             Assert.AreEqual(10, rn10.a);
             Assert.AreEqual(13, rn13.a);
         }
+
         [TestMethod]
         public void SubstractionTest()
         {
