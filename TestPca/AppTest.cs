@@ -230,8 +230,34 @@ namespace TestProject
             Rumnumber rn10 = Rumnumber.Add("I", "IX");
             Rumnumber rn9 = Rumnumber.Add(rn5, "IV");
             Rumnumber rn13 = Rumnumber.Add(rn5, rn8);
+  
+            Assert.AreEqual(5, rn5.a);
+            Assert.AreEqual(8, rn8.a);
+            Assert.AreEqual(9, rn9.a);
+            Assert.AreEqual(10, rn10.a);
+            Assert.AreEqual(13, rn13.a);
+        }
+        [TestMethod]
+        public void SubstractionTest()
+        {
+            Rumnumber rn10 = new(10);
+            Rumnumber rn3 = new(3);
+            Rumnumber rn15 = new(15);
+            Rumnumber rn_7 = new(-7);
+            Rumnumber rn_9 = new(-9);
 
-
+            Assert.AreEqual(-7, rn3.Sub(rn10).a);
+            Assert.AreEqual(5, rn15.Sub(rn10).a);
+            Assert.AreEqual(22, rn15.Sub(rn_7).a);
+            Assert.AreEqual(2, rn_7.Sub(rn_9).a);
+            Assert.AreEqual(7, rn10.Sub(rn3).a);
+        }
+        [TestMethod]
+        public void RomanNumberPraseInvalid()
+        {
+            var exc = Assert.ThrowsException<ArgumentException>(()=> { Rumnumber.Parse("XXA"); });
+            var exp = new ArgumentException(Resorces.GetInvalidc('a'));
+        
         }
 
     }

@@ -159,6 +159,11 @@ namespace Classwork
 
             return res;
         }
+        public Rumnumber Sub(Rumnumber rn)
+        {
+            if (rn is null) throw new ArgumentNullException(nameof(rn));
+            return new(this.a - rn.a);  
+        }
     }
    
 }
